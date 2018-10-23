@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     private fun moveDot() {
         var newX = dot.x + xVelocity
         var newY = dot.y + yVelocity
+        val effectiveWidth = screenWidth - dot.width
+        val effectiveHeight = screenHeight - dot.height
         if(newX<0){
             newX = -newX
             xVelocity = -xVelocity
@@ -59,14 +61,14 @@ class MainActivity : AppCompatActivity() {
             newY = -newY
             yVelocity = -yVelocity
         }
-        if(newX >screenWidth)
+        if(newX >effectiveWidth)
         {
-            newX = 2*screenWidth-newX
+            newX = 2*effectiveWidth-newX
             xVelocity = -xVelocity
         }
-        if(newY > screenHeight)
+        if(newY > effectiveHeight)
         {
-            newY = 2*screenHeight-newY
+            newY = 2*effectiveHeight-newY
             yVelocity = -yVelocity
         }
 
