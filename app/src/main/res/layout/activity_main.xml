@@ -9,10 +9,52 @@
 
 
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:src="@drawable/dot_24dp" android:id="@+id/dot"/>
+               android:src="@drawable/dot_24dp" android:id="@+id/dot" tools:ignore="ContentDescription"
+               app:layout_constraintEnd_toEndOf="parent"
+               android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+               app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+               android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+               app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+               app:layout_constraintBottom_toTopOf="@+id/guideline"/>
 
-     <android.support.constraint.Guideline
+    <android.support.constraint.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:layout_constraintGuide_begin="457dp" android:id="@+id/guideline"/>
+            android:layout_height="wrap_content" app:layout_constraintGuide_begin="469dp" android:id="@+id/guideline"/>
+    <Button
+            android:text="Vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/verticalButton"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+    <Button
+            android:text="Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalButton"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.502" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="@+id/guideline4"
+            android:layout_marginLeft="8dp"/>
+    <android.support.constraint.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:layout_constraintGuide_begin="192dp" android:id="@+id/guideline4"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
 </android.support.constraint.ConstraintLayout>
