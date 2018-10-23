@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     val verticalMode = "vertical"
     private var mode = horizontalMode
 
-    private var xVelocity =  1f
-    private var yVelocity =  2f
+    private var xVelocity = -1f
+    private var yVelocity = -2f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setTextShown()
         val timer = Timer("schedule", false).schedule(0,20){
             moveDot()
-        };
+        }
 
 
 
@@ -49,8 +49,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveDot() {
-        dot.x + xVelocity
-        dot.y += yVelocity
+        var newX = dot.x + xVelocity
+        var newY = dot.y + yVelocity
+        if(newX<0){
+            newX = -newX
+            xVelocity = -xVelocity
+        }
+        if(newY<0){
+            newY = -newY
+            yVelocity = -yVelocity
+        }
+        if(newX >screenWidth)
+        {
+            newX = 2*screenWidth-newX
+            xVelocity = -xVelocity
+        }
+        if(newY > screenHeight)
+        {
+            newY = 2*screenHeight-newY
+            yVelocity = -yVelocity
+        }
+
+        dot.x = newX
+        dot.y = newY
     }
 
     private fun setTextShown(){
