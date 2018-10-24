@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     val verticalMode = "vertical"
     private var mode = horizontalMode
 
-    private var xVelocity = -1f
-    private var yVelocity = -2f
+    private var xVelocity = -10f
+    private var yVelocity = -20f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
