@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setTextShown()
         gameView.setDot(dot)
         gameView.setGoodArea(goodArea)
+        gameView.startMovement()
     }
 
     private fun setTextShown() {

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
+import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -36,7 +37,7 @@ class GameView : View {
 
     fun setDot(dot: ImageView) {
         _dot = dot
-        startTimer()
+
     }
 
     private lateinit var _goodArea: ImageView
@@ -46,7 +47,7 @@ class GameView : View {
         _goodArea.setColorFilter(Color.GREEN)
     }
 
-    private fun startTimer() {
+    fun startMovement() {
         Timer("schedule", false).schedule(0, 20) {
             moveDot()
         }
@@ -84,6 +85,18 @@ class GameView : View {
 
         _dot.x = newX
         _dot.y = newY
+        val xIsInsideGoodArea = _dot.x<= (_goodArea.x + _goodArea.width)&& _dot.x>= _goodArea.x
+        val yIsInsideGoodArea = _dot.y<= (_goodArea.y + _goodArea.height)&& _dot.y>= _goodArea.y
+
+        val dotIsInsideGoodArea = xIsInsideGoodArea&&yIsInsideGoodArea
+
+        if(dotIsInsideGoodArea)
+        {
+            _goodArea.setColorFilter(Color.YELLOW)
+        }else{
+            _goodArea.setColorFilter(Color.GREEN)
+
+        }
 
     }
 
