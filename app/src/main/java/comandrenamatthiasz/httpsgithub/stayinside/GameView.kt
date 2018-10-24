@@ -39,6 +39,13 @@ class GameView : View {
         startTimer()
     }
 
+    private lateinit var _goodArea: ImageView
+
+    fun setGoodArea(goodArea: ImageView){
+        _goodArea = goodArea
+        _goodArea.setColorFilter(Color.GREEN)
+    }
+
     private fun startTimer() {
         Timer("schedule", false).schedule(0, 20) {
             moveDot()
@@ -71,6 +78,9 @@ class GameView : View {
             newY = reflect(y+effectiveHeight,newY)
             yVelocity = -yVelocity
         }
+
+
+
 
         _dot.x = newX
         _dot.y = newY

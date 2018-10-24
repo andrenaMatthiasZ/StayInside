@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         setTextShown()
         gameView.setDot(dot)
+        gameView.setGoodArea(goodArea)
     }
 
     private fun setTextShown() {
