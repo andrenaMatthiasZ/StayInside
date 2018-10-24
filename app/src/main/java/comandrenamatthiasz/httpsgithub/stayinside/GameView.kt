@@ -29,8 +29,6 @@ class GameView : View {
 
     private fun init() {
         setBackgroundColor(Color.RED)
-
-
     }
 
 
@@ -38,10 +36,6 @@ class GameView : View {
 
     fun setDot(dot: ImageView) {
         _dot = dot
-    }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
         startTimer()
     }
 
@@ -53,33 +47,38 @@ class GameView : View {
 
     private fun moveDot() {
 
+        _dot!!
 
         var newX = _dot.x + xVelocity
         var newY = _dot.y + yVelocity
 
-        val effectiveWidth = this.width - _dot.width
-        val effectiveHeight = this.height - _dot.height
+        val effectiveWidth = width - _dot.width
+        val effectiveHeight = height - _dot.height
 
-        if (newX < 0) {
-            newX = -newX
+        if (newX < x) {
+            newX = reflect(x,newX)
             xVelocity = -xVelocity
         }
-        if (newY < 0) {
-            newY = -newY
+        if (newY < y) {
+            newY = reflect(y,newY)
             yVelocity = -yVelocity
         }
-        if (newX > effectiveWidth) {
-            newX = 2 * effectiveWidth - newX
+        if (newX > x+effectiveWidth) {
+            newX = reflect(x+effectiveWidth,newX)
             xVelocity = -xVelocity
         }
-        if (newY > effectiveHeight) {
-            newY = 2 * effectiveHeight - newY
+        if (newY > y + effectiveHeight) {
+            newY = reflect(y+effectiveHeight,newY)
             yVelocity = -yVelocity
         }
 
         _dot.x = newX
         _dot.y = newY
 
+    }
+
+    private fun reflect(barrier: Float,position: Float): Float {
+       return 2*barrier - position
     }
 
 }
