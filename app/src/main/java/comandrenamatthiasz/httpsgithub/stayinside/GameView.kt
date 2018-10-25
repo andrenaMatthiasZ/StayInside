@@ -3,7 +3,6 @@ package layout
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import comandrenamatthiasz.httpsgithub.stayinside.DotState
@@ -64,6 +63,14 @@ class GameView : View {
 
         moveToNextPosition()
         checkForGoodArea()
+        colorGoodAreaAccordingToDotState()
+    }
+
+    private fun colorGoodAreaAccordingToDotState() {
+        when (_state){
+            DotState.CannotCollectPoint -> _goodArea.setColorFilter(Color.GRAY)
+            DotState.CanCollectPoint-> _goodArea.setColorFilter(Color.YELLOW)
+        }
     }
 
     private var _state = DotState.CanCollectPoint
@@ -74,16 +81,18 @@ class GameView : View {
 
         val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
 
-        val canCollectPoint = _state == DotState.CanCollectPoint
+        val canCollectPoint = canCollectPoint()
 
         if (dotIsInsideGoodArea&&canCollectPoint) {
             _listener?.reached(AreaType.Point)
-            _state = DotState.CannotCollectPoint
+            setDotState(DotState.CannotCollectPoint)
         }
 
 
 
     }
+
+    private fun canCollectPoint() = _state == DotState.CanCollectPoint
 
     private fun moveToNextPosition() {
         var newX = _dot.x + xVelocity
@@ -118,8 +127,12 @@ class GameView : View {
     }
 
     private fun onOuterAreaReached() {
-        _state = DotState.CanCollectPoint
+        setDotState(DotState.CanCollectPoint)
         _listener?.reached(AreaType.Outer)
+    }
+
+    private fun setDotState(state: DotState) {
+        _state = state
     }
 
     private fun reflect(barrier: Float, position: Float): Float {
