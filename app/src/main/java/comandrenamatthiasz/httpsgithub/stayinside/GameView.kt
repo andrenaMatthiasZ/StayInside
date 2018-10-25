@@ -42,7 +42,7 @@ class GameView : View {
 
     private lateinit var _goodArea: ImageView
 
-    fun setGoodArea(goodArea: ImageView){
+    fun setGoodArea(goodArea: ImageView) {
         _goodArea = goodArea
         _goodArea.setColorFilter(Color.GREEN)
     }
@@ -64,19 +64,19 @@ class GameView : View {
         val effectiveHeight = height - _dot.height
 
         if (newX < x) {
-            newX = reflect(x,newX)
+            newX = reflect(x, newX)
             xVelocity = -xVelocity
         }
         if (newY < y) {
-            newY = reflect(y,newY)
+            newY = reflect(y, newY)
             yVelocity = -yVelocity
         }
-        if (newX > x+effectiveWidth) {
-            newX = reflect(x+effectiveWidth,newX)
+        if (newX > x + effectiveWidth) {
+            newX = reflect(x + effectiveWidth, newX)
             xVelocity = -xVelocity
         }
         if (newY > y + effectiveHeight) {
-            newY = reflect(y+effectiveHeight,newY)
+            newY = reflect(y + effectiveHeight, newY)
             yVelocity = -yVelocity
         }
 
@@ -85,23 +85,22 @@ class GameView : View {
 
         _dot.x = newX
         _dot.y = newY
-        val xIsInsideGoodArea = _dot.x<= (_goodArea.x + _goodArea.width)&& _dot.x>= _goodArea.x
-        val yIsInsideGoodArea = _dot.y<= (_goodArea.y + _goodArea.height)&& _dot.y>= _goodArea.y
+        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && _dot.x >= _goodArea.x
+        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && _dot.y >= _goodArea.y
 
-        val dotIsInsideGoodArea = xIsInsideGoodArea&&yIsInsideGoodArea
+        val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
 
-        if(dotIsInsideGoodArea)
-        {
+        if (dotIsInsideGoodArea) {
             _goodArea.setColorFilter(Color.YELLOW)
-        }else{
+        } else {
             _goodArea.setColorFilter(Color.GREEN)
 
         }
 
     }
 
-    private fun reflect(barrier: Float,position: Float): Float {
-       return 2*barrier - position
+    private fun reflect(barrier: Float, position: Float): Float {
+        return 2 * barrier - position
     }
 
 }

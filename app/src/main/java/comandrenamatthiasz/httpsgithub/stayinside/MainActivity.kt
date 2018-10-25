@@ -7,31 +7,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
 
-    val horizontalMode = "horizontal"
-    val verticalMode = "vertical"
-    private var mode = horizontalMode
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        horizontalButton.setOnClickListener {
-            mode = horizontalMode
-            setTextShown()
-        }
-        verticalButton.setOnClickListener {
-            mode = verticalMode
-            setTextShown()
-        }
 
-        setTextShown()
+
         gameView.setDot(dot)
         gameView.setGoodArea(goodArea)
         gameView.startMovement()
+
+        points.resetPoints()
     }
 
-    private fun setTextShown() {
-        textView.text = mode
-    }
+
 }

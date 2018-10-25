@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StayInside</string>
+    <string name="default_text_points">DEFAULTTEXT</string>
 </resources>
