@@ -7,6 +7,7 @@ import layout.AreaType
 import layout.OnCertainAreaReachedListener
 
 class MainActivity : AppCompatActivity(), OnCertainAreaReachedListener {
+
     override fun reached(areaType: AreaType) {
         runOnUiThread {
             when (areaType) {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), OnCertainAreaReachedListener {
 
         points.resetPoints()
 
-        gameView.setOnGoodAreaReachedListener(this)
+        gameView.setOnCertainAreaReachedListener(this)
     }
 
 

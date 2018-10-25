@@ -41,7 +41,7 @@ class GameView : View {
 
     private var _listener: OnCertainAreaReachedListener? = null
 
-    fun setOnGoodAreaReachedListener(listener: OnCertainAreaReachedListener){
+    fun setOnCertainAreaReachedListener(listener: OnCertainAreaReachedListener){
        _listener = listener
     }
 
@@ -54,14 +54,32 @@ class GameView : View {
 
     fun startMovement() {
         Timer("schedule", false).schedule(0, 20) {
-            moveDot()
+            doStepForDot()
         }
     }
 
-    private fun moveDot() {
+    private fun doStepForDot() {
 
-        _dot!!
+        moveToNextPosition()
+        checkForGoodArea()
+    }
 
+    private fun checkForGoodArea() {
+        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && _dot.x >= _goodArea.x
+        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && _dot.y >= _goodArea.y
+
+        val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
+
+        if (dotIsInsideGoodArea) {
+            _goodArea.setColorFilter(Color.YELLOW)
+            _listener?.reached(AreaType.Point)
+        } else {
+            _goodArea.setColorFilter(Color.GREEN)
+
+        }
+    }
+
+    private fun moveToNextPosition() {
         var newX = _dot.x + xVelocity
         var newY = _dot.y + yVelocity
 
@@ -94,19 +112,6 @@ class GameView : View {
 
         _dot.x = newX
         _dot.y = newY
-        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && _dot.x >= _goodArea.x
-        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && _dot.y >= _goodArea.y
-
-        val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
-
-        if (dotIsInsideGoodArea) {
-            _goodArea.setColorFilter(Color.YELLOW)
-            _listener?.reached(AreaType.Point)
-        } else {
-            _goodArea.setColorFilter(Color.GREEN)
-
-        }
-
     }
 
     private fun reflect(barrier: Float, position: Float): Float {
