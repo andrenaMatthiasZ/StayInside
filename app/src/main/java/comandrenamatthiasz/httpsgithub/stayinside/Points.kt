@@ -1,12 +1,14 @@
 package layout
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.View
 import android.widget.TextView
 
+
+
 class Points : TextView {
+
+
     constructor(context: Context) : super(context) {
         init(context, null, 0)
     }
@@ -20,12 +22,7 @@ class Points : TextView {
     }
 
     private fun init(context: Context, attributeSet: AttributeSet?, defStyle: Int) {
-        textView = TextView(context, attributeSet, defStyle)
-        textView.text = "default"
     }
-
-
-    lateinit var textView: TextView
 
     private var _value: Int = 0
 
@@ -39,8 +36,6 @@ class Points : TextView {
     private fun updateText() {
         setText(text + _value)
     }
-
-
 
     fun increasePoints() {
         _value++

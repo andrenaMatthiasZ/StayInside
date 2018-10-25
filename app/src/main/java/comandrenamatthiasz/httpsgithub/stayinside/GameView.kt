@@ -1,12 +1,10 @@
 package layout
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -40,6 +38,13 @@ class GameView : View {
 
     }
 
+
+    private var _listener: OnCertainAreaReachedListener? = null
+
+    fun setOnGoodAreaReachedListener(listener: OnCertainAreaReachedListener){
+       _listener = listener
+    }
+
     private lateinit var _goodArea: ImageView
 
     fun setGoodArea(goodArea: ImageView) {
@@ -66,18 +71,22 @@ class GameView : View {
         if (newX < x) {
             newX = reflect(x, newX)
             xVelocity = -xVelocity
+            _listener?.reached(AreaType.Outer)
         }
         if (newY < y) {
             newY = reflect(y, newY)
             yVelocity = -yVelocity
+            _listener?.reached(AreaType.Outer)
         }
         if (newX > x + effectiveWidth) {
             newX = reflect(x + effectiveWidth, newX)
             xVelocity = -xVelocity
+            _listener?.reached(AreaType.Outer)
         }
         if (newY > y + effectiveHeight) {
             newY = reflect(y + effectiveHeight, newY)
             yVelocity = -yVelocity
+            _listener?.reached(AreaType.Outer)
         }
 
 
@@ -92,6 +101,7 @@ class GameView : View {
 
         if (dotIsInsideGoodArea) {
             _goodArea.setColorFilter(Color.YELLOW)
+            _listener?.reached(AreaType.Point)
         } else {
             _goodArea.setColorFilter(Color.GREEN)
 
