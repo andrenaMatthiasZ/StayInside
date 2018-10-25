@@ -3,8 +3,10 @@ package layout
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import comandrenamatthiasz.httpsgithub.stayinside.DotState
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -64,19 +66,23 @@ class GameView : View {
         checkForGoodArea()
     }
 
+    private var _state = DotState.CanCollectPoint
+
     private fun checkForGoodArea() {
         val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && _dot.x >= _goodArea.x
         val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && _dot.y >= _goodArea.y
 
         val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
 
-        if (dotIsInsideGoodArea) {
-            _goodArea.setColorFilter(Color.YELLOW)
-            _listener?.reached(AreaType.Point)
-        } else {
-            _goodArea.setColorFilter(Color.GREEN)
+        val canCollectPoint = _state == DotState.CanCollectPoint
 
+        if (dotIsInsideGoodArea&&canCollectPoint) {
+            _listener?.reached(AreaType.Point)
+            _state = DotState.CannotCollectPoint
         }
+
+
+
     }
 
     private fun moveToNextPosition() {
@@ -89,29 +95,31 @@ class GameView : View {
         if (newX < x) {
             newX = reflect(x, newX)
             xVelocity = -xVelocity
-            _listener?.reached(AreaType.Outer)
+            onOuterAreaReached()
         }
         if (newY < y) {
             newY = reflect(y, newY)
             yVelocity = -yVelocity
-            _listener?.reached(AreaType.Outer)
+            onOuterAreaReached()
         }
         if (newX > x + effectiveWidth) {
             newX = reflect(x + effectiveWidth, newX)
             xVelocity = -xVelocity
-            _listener?.reached(AreaType.Outer)
+            onOuterAreaReached()
         }
         if (newY > y + effectiveHeight) {
             newY = reflect(y + effectiveHeight, newY)
             yVelocity = -yVelocity
-            _listener?.reached(AreaType.Outer)
+            onOuterAreaReached()
         }
-
-
-
 
         _dot.x = newX
         _dot.y = newY
+    }
+
+    private fun onOuterAreaReached() {
+        _state = DotState.CanCollectPoint
+        _listener?.reached(AreaType.Outer)
     }
 
     private fun reflect(barrier: Float, position: Float): Float {
