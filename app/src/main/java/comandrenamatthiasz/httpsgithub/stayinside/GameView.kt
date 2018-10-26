@@ -154,11 +154,7 @@ class GameView : View {
     private var _state = DotState.CanCollectPoint
 
     private fun checkForGoodArea() {
-        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && (_dot.x+_dot.width) >= _goodArea.x
-        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && (_dot.y+_dot.height) >= _goodArea.y
-
-        val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
-
+        val dotIsInsideGoodArea = dotIsInGoodArea()
         val canCollectPoint = canCollectPoint()
 
         if (dotIsInsideGoodArea && canCollectPoint) {
@@ -167,6 +163,13 @@ class GameView : View {
         }
 
 
+    }
+
+    private fun dotIsInGoodArea(): Boolean {
+        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && (_dot.x + _dot.width) >= _goodArea.x
+        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && (_dot.y + _dot.height) >= _goodArea.y
+
+        return xIsInsideGoodArea && yIsInsideGoodArea
     }
 
     private fun canCollectPoint() = _state == DotState.CanCollectPoint
