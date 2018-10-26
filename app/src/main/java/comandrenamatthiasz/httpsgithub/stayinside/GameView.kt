@@ -47,10 +47,10 @@ class GameView : View {
 
     private fun drawBarrier(canvas: Canvas) {
         val paint = Paint()
-        paint.color = Color.BLACK
+        paint.color = Color.CYAN
         paint.strokeWidth = 10f
         paint.style = Paint.Style.STROKE
-        canvas.drawLine(_xStart, _yStart, _xStop, _yStop, paint)
+        _start.drawLineTo(_stop,canvas,paint)
     }
 
 
@@ -71,42 +71,39 @@ class GameView : View {
 
     private fun createNewBarrierIfLineIsLongEnough() {
 
-        val differenceSquare =
-            (_newXStart - _newXStop) * (_newXStart - _newXStop) + (_newYStart - _newYStop) * (_newYStart - _newYStop)
+        val differenceSquare = _newStart.distanceSquaredTo(_newStop)
 
         if (differenceSquare > 10f * 10f) {
             useNewPointsForBarrier()
         }
     }
 
+    private var _start=PositionVector()
+
+    private var _stop=PositionVector()
+
     private fun useNewPointsForBarrier() {
-        _xStart = _newXStart
-        _yStart = _newYStart
-        _xStop = _newXStop
-        _yStop = _newYStop
+
+       _start = _newStart
+        _stop=_newStop
     }
 
-    private var _xStart: Float = 0f
-    private var _yStart: Float = 0f
-    private var _xStop: Float = 3f
-    private var _yStop: Float = 3f
 
-    private var _newXStop: Float = 0f
 
-    private var _newYStop: Float = 0f
+
+    private var _newStop: PositionVector = PositionVector()
 
     private fun saveAsStop(x: Float, y: Float) {
-        _newXStop = x
-        _newYStop = y
+
+        _newStop = PositionVector(x,y)
     }
 
-    private var _newXStart: Float = 0f
 
-    private var _newYStart: Float = 0f
+    private var _newStart: PositionVector= PositionVector()
 
     private fun saveAsStart(x: Float, y: Float) {
-        _newXStart = x
-        _newYStart = y
+
+        _newStart = PositionVector(x,y)
     }
 
 
