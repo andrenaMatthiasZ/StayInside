@@ -2,6 +2,7 @@ package comandrenamatthiasz.httpsgithub.stayinside
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.util.Log
 
 class Line(first: PositionVector, second: PositionVector) {
 
@@ -22,6 +23,7 @@ class Line(first: PositionVector, second: PositionVector) {
         val thisSeparatesOther = separates(other._first, other._second)
         val otherSeparatesThis = other.separates(_first,_second)
 
+
         return thisSeparatesOther&&otherSeparatesThis
     }
 
@@ -29,13 +31,22 @@ class Line(first: PositionVector, second: PositionVector) {
         first: PositionVector,
         second: PositionVector
     ): Boolean {
-        val directionOfLine = _second.movesTo(_first)
-        val normal = directionOfLine.rotateByNinetyDegree()
+        val normal = getNormal()
+
         val fromFirstToOnePointOfLine = first.movesTo(_first)
         val fromSecondToOnePointOfLine = second.movesTo(_first)
+
         val scalarProduct1 = normal.scalarProduct(fromFirstToOnePointOfLine)
         val scalarProduct2 = normal.scalarProduct(fromSecondToOnePointOfLine)
+
         val bothPointsAreOnDifferentSideOfHalfSpaceGeneratedByLine = scalarProduct1 * scalarProduct2 < 0
+
         return bothPointsAreOnDifferentSideOfHalfSpaceGeneratedByLine
+    }
+
+    private fun getNormal(): MovementVector {
+        val directionOfLine = _second.movesTo(_first)
+        val normal = directionOfLine.rotateByNinetyDegree()
+        return normal
     }
 }

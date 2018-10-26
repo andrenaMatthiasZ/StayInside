@@ -167,11 +167,23 @@ class GameView : View {
         reflectFromBorderIfNecessary()
         reflectFromUserDrawnBorderIfNecessary()
 
-        val nextPosition = PositionVector(_dot.x+xVelocity,_dot.y+yVelocity)
+        val nextPosition = MovementVector(xVelocity,yVelocity).move(PositionVector(_dot.x,_dot.y))
         nextPosition.setAsPosition(_dot)
     }
 
     private fun reflectFromUserDrawnBorderIfNecessary() {
+
+        if (_barrier == null) return
+        reflectDotFromUserDrawnBarrier(_barrier!!)
+    }
+
+    private fun reflectDotFromUserDrawnBarrier(barrier: Line) {
+        val oldDotPosition = PositionVector(_dot.x, _dot.y)
+        val newPosition = MovementVector(xVelocity, yVelocity).move(oldDotPosition)
+        val dotLine = Line(oldDotPosition, newPosition)
+        if (dotLine.crosses(barrier)) {
+            LogHelper().log("Barrier","crossed.")
+        }
     }
 
     private fun reflectFromBorderIfNecessary() {
@@ -202,8 +214,6 @@ class GameView : View {
         _state = state
     }
 
-    private fun reflect(barrier: Float, position: Float): Float {
-        return 2 * barrier - position
-    }
+
 
 }

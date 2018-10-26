@@ -3,7 +3,7 @@ package comandrenamatthiasz.httpsgithub.stayinside
 class MovementVector {
 
     constructor(vX: Float = 0f, vY: Float = 0f) : this(Vector(vX, vY))
-    private constructor(vector: Vector) {
+    constructor(vector: Vector) {
         _vector = vector
     }
 
@@ -19,5 +19,9 @@ class MovementVector {
 
     fun scalarProduct(other: MovementVector): Float {
         return _vector.scalarProduct(other._vector)
+    }
+
+    fun length():Float{
+        return _vector.length()
     }
 }

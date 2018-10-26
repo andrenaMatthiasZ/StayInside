@@ -27,8 +27,7 @@ class PositionVector {
     }
 
     fun movesTo(other: PositionVector): MovementVector {
-        other._vector.minus(_vector)
-        return MovementVector()
+        return MovementVector(other._vector.minus(_vector))
     }
 
     fun setAsPosition(view: View) {
