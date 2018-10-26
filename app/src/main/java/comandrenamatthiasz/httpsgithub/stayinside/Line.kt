@@ -17,4 +17,25 @@ class Line(first: PositionVector, second: PositionVector) {
     fun length():Float{
         return _first.distance(_second)
     }
+
+    fun crosses(other:Line):Boolean{
+        val thisSeparatesOther = separates(other._first, other._second)
+        val otherSeparatesThis = other.separates(_first,_second)
+
+        return thisSeparatesOther&&otherSeparatesThis
+    }
+
+    private fun separates(
+        first: PositionVector,
+        second: PositionVector
+    ): Boolean {
+        val directionOfLine = _second.movesTo(_first)
+        val normal = directionOfLine.rotateByNinetyDegree()
+        val fromFirstToOnePointOfLine = first.movesTo(_first)
+        val fromSecondToOnePointOfLine = second.movesTo(_first)
+        val scalarProduct1 = normal.scalarProduct(fromFirstToOnePointOfLine)
+        val scalarProduct2 = normal.scalarProduct(fromSecondToOnePointOfLine)
+        val bothPointsAreOnDifferentSideOfHalfSpaceGeneratedByLine = scalarProduct1 * scalarProduct2 < 0
+        return bothPointsAreOnDifferentSideOfHalfSpaceGeneratedByLine
+    }
 }

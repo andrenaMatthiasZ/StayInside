@@ -32,7 +32,6 @@ class GameView : View {
 
     private fun init() {
         setBackgroundColor(Color.LTGRAY)
-
         setOnTouchListener { _, event ->
             handleTouch(event)
 
@@ -132,6 +131,7 @@ class GameView : View {
         moveToNextPosition()
         checkForGoodArea()
         colorGoodAreaAccordingToDotState()
+
     }
 
     private fun colorGoodAreaAccordingToDotState() {
@@ -160,35 +160,45 @@ class GameView : View {
     private fun canCollectPoint() = _state == DotState.CanCollectPoint
 
     private fun moveToNextPosition() {
-        var newX = _dot.x + xVelocity
-        var newY = _dot.y + yVelocity
+        val newX = _dot.x + xVelocity
+        val newY = _dot.y + yVelocity
 
+        val pair = ReflectFromBorderIfNecessary(newX, newY)
+
+        _dot.x = pair.first
+        _dot.y = pair.second
+    }
+
+    private fun ReflectFromBorderIfNecessary(
+        newX: Float,
+        newY: Float
+    ): Pair<Float, Float> {
+        var newX1 = newX
+        var newY1 = newY
         val effectiveWidth = width - _dot.width
         val effectiveHeight = height - _dot.height
 
-        if (newX < x) {
-            newX = reflect(x, newX)
+        if (newX1 < x) {
+            newX1 = reflect(x, newX1)
             xVelocity = -xVelocity
             onOuterAreaReached()
         }
-        if (newY < y) {
-            newY = reflect(y, newY)
+        if (newY1 < y) {
+            newY1 = reflect(y, newY1)
             yVelocity = -yVelocity
             onOuterAreaReached()
         }
-        if (newX > x + effectiveWidth) {
-            newX = reflect(x + effectiveWidth, newX)
+        if (newX1 > x + effectiveWidth) {
+            newX1 = reflect(x + effectiveWidth, newX1)
             xVelocity = -xVelocity
             onOuterAreaReached()
         }
-        if (newY > y + effectiveHeight) {
-            newY = reflect(y + effectiveHeight, newY)
+        if (newY1 > y + effectiveHeight) {
+            newY1 = reflect(y + effectiveHeight, newY1)
             yVelocity = -yVelocity
             onOuterAreaReached()
         }
-
-        _dot.x = newX
-        _dot.y = newY
+        return Pair(newX1, newY1)
     }
 
     private fun onOuterAreaReached() {

@@ -25,4 +25,10 @@ class PositionVector {
         return PositionVector(_vector.add(vector))
     }
 
+    fun movesTo(other: PositionVector): MovementVector {
+        other._vector.minus(_vector)
+        return MovementVector()
+    }
+
+
 }

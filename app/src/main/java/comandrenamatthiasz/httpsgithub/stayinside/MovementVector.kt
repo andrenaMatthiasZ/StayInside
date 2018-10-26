@@ -1,10 +1,23 @@
 package comandrenamatthiasz.httpsgithub.stayinside
 
-class MovementVector(vX: Float = 0f, vY: Float = 0f){
+class MovementVector {
 
-    private var _vector: Vector = Vector(vX, vY)
+    constructor(vX: Float = 0f, vY: Float = 0f) : this(Vector(vX, vY))
+    private constructor(vector: Vector) {
+        _vector = vector
+    }
+
+    private var _vector: Vector
 
     fun move(position: PositionVector): PositionVector {
         return position.moveBy(_vector)
+    }
+
+    fun rotateByNinetyDegree(): MovementVector {
+        return MovementVector(_vector.rotateByNinetyDegree())
+    }
+
+    fun scalarProduct(other: MovementVector): Float {
+        return _vector.scalarProduct(other._vector)
     }
 }
