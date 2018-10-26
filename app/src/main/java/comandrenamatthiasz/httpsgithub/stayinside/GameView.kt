@@ -27,8 +27,11 @@ class GameView : View {
         init()
     }
 
-    private var xVelocity = -10f
-    private var yVelocity = -20f
+    private val initialXVelocity = -10f
+    private val initialYVelocity = -20f
+
+    private var xVelocity = initialXVelocity
+    private var yVelocity = initialYVelocity
 
     private fun init() {
         setBackgroundColor(Color.LTGRAY)
@@ -160,45 +163,39 @@ class GameView : View {
     private fun canCollectPoint() = _state == DotState.CanCollectPoint
 
     private fun moveToNextPosition() {
-        val newX = _dot.x + xVelocity
-        val newY = _dot.y + yVelocity
 
-        val pair = ReflectFromBorderIfNecessary(newX, newY)
-
-        _dot.x = pair.first
-        _dot.y = pair.second
+        reflectFromBorderIfNecessary()
+        reflectFromUserDrawnBorderIfNecessary()
+        _dot.x = _dot.x + xVelocity
+        _dot.y = _dot.y + yVelocity
     }
 
-    private fun ReflectFromBorderIfNecessary(
-        newX: Float,
-        newY: Float
-    ): Pair<Float, Float> {
-        var newX1 = newX
-        var newY1 = newY
+    private fun reflectFromUserDrawnBorderIfNecessary() {
+    }
+
+    private fun reflectFromBorderIfNecessary()
+      {
+
         val effectiveWidth = width - _dot.width
         val effectiveHeight = height - _dot.height
 
-        if (newX1 < x) {
-            newX1 = reflect(x, newX1)
+        if (_dot.x < x) {
             xVelocity = -xVelocity
             onOuterAreaReached()
         }
-        if (newY1 < y) {
-            newY1 = reflect(y, newY1)
+        if (_dot.y < y) {
             yVelocity = -yVelocity
             onOuterAreaReached()
         }
-        if (newX1 > x + effectiveWidth) {
-            newX1 = reflect(x + effectiveWidth, newX1)
+        if (_dot.x > x + effectiveWidth) {
             xVelocity = -xVelocity
             onOuterAreaReached()
         }
-        if (newY1 > y + effectiveHeight) {
-            newY1 = reflect(y + effectiveHeight, newY1)
+        if (_dot.y > y + effectiveHeight) {
             yVelocity = -yVelocity
             onOuterAreaReached()
         }
-        return Pair(newX1, newY1)
+
     }
 
     private fun onOuterAreaReached() {
