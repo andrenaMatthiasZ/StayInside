@@ -3,14 +3,26 @@ package comandrenamatthiasz.httpsgithub.stayinside
 import android.graphics.Canvas
 import android.graphics.Paint
 
-class PositionVector(private val x: Float =0f, private val y: Float =0f) {
+class PositionVector {
 
-    fun drawLineTo(otherVector: PositionVector, canvas: Canvas,paint: Paint){
-        canvas.drawLine(x,y,otherVector.x,otherVector.y,paint)
+    private var _vector: Vector
+
+    constructor(x: Float=0f, y: Float=0f):this(Vector(x,y))
+
+    private constructor(vector:Vector){
+        _vector=vector
     }
 
-    fun distanceSquaredTo(other: PositionVector):Float{
-        return (x- other.x)*(x-other.x)+(y-other.y)*(y-other.y)
+    fun drawLineTo(otherVector: PositionVector, canvas: Canvas, paint: Paint){
+        _vector.drawLineTo(otherVector._vector,canvas,paint)
+    }
+
+    fun distance(other: PositionVector):Float{
+        return _vector.distance(other._vector)
+    }
+
+    fun moveBy(vector: Vector): PositionVector {
+        return PositionVector(_vector.add(vector))
     }
 
 }

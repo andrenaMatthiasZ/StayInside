@@ -1,15 +1,10 @@
 package comandrenamatthiasz.httpsgithub.stayinside
 
-class MovementVector {
+class MovementVector(vX: Float = 0f, vY: Float = 0f){
 
+    private var _vector: Vector = Vector(vX, vY)
 
-    private var _vector: Vector
-
-    constructor(vX: Float = 0f, vY: Float = 0f) {
-        this._vector = Vector(vX, vY)
-
-    }
     fun move(position: PositionVector): PositionVector {
-
+        return position.moveBy(_vector)
     }
 }

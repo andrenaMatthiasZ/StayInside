@@ -75,9 +75,9 @@ class GameView : View {
 
     private fun createNewBarrierIfLineIsLongEnough() {
 
-        val differenceSquare = _newStart.distanceSquaredTo(_newStop)
+        val distance = _newStart.distance(_newStop)
 
-        if (differenceSquare > 10f * 10f) {
+        if (distance > 10f) {
             useNewPointsForBarrier()
         }
     }
