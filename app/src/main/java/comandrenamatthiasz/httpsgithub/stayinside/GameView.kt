@@ -47,21 +47,25 @@ class GameView : View {
 
     private fun drawBarrier(canvas: Canvas) {
         val paint = Paint()
-        paint.color = Color.CYAN
-        paint.strokeWidth = 10f
-        paint.style = Paint.Style.STROKE
-        _start.drawLineTo(_stop,canvas,paint)
+        paint.color = drawBarrierColor
+        paint.strokeWidth = barrierThickness
+        paint.style = barrierStyle
+        _start.drawLineTo(_stop, canvas, paint)
     }
 
+
+    private val drawBarrierColor = Color.CYAN
+    private val barrierThickness = 10f
+    private val barrierStyle = Paint.Style.STROKE
 
     private fun handleTouch(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
         val actionType = event.actionMasked
         when (actionType) {
-            MotionEvent.ACTION_DOWN -> saveAsStart(x, y)
+            MotionEvent.ACTION_DOWN -> saveAsStart(PositionVector(x, y))
             MotionEvent.ACTION_UP -> {
-                saveAsStop(x, y)
+                saveAsStop(PositionVector(x, y))
                 createNewBarrierIfLineIsLongEnough()
             }
         }
@@ -78,42 +82,32 @@ class GameView : View {
         }
     }
 
-    private var _start=PositionVector()
-
-    private var _stop=PositionVector()
+    private var _start = PositionVector()
+    private var _stop = PositionVector()
+    private var _newStop: PositionVector = PositionVector()
+    private var _newStart: PositionVector = PositionVector()
 
     private fun useNewPointsForBarrier() {
 
-       _start = _newStart
-        _stop=_newStop
+        _start = _newStart
+        _stop = _newStop
     }
 
+    private fun saveAsStop(positionVector: PositionVector) {
 
-
-
-    private var _newStop: PositionVector = PositionVector()
-
-    private fun saveAsStop(x: Float, y: Float) {
-
-        _newStop = PositionVector(x,y)
+        _newStop = positionVector
     }
 
+    private fun saveAsStart(positionVector: PositionVector) {
 
-    private var _newStart: PositionVector= PositionVector()
-
-    private fun saveAsStart(x: Float, y: Float) {
-
-        _newStart = PositionVector(x,y)
+        _newStart = positionVector
     }
-
 
     private lateinit var _dot: ImageView
 
     fun setDot(dot: ImageView) {
         _dot = dot
-
     }
-
 
     private var _listener: OnCertainAreaReachedListener? = null
 
@@ -135,7 +129,6 @@ class GameView : View {
     }
 
     private fun doStepForDot() {
-
         moveToNextPosition()
         checkForGoodArea()
         colorGoodAreaAccordingToDotState()
@@ -158,15 +151,10 @@ class GameView : View {
             _listener?.reached(AreaType.Point)
             setDotState(DotState.CannotCollectPoint)
         }
-
-
     }
 
     private fun dotIsInGoodArea(): Boolean {
-        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && (_dot.x + _dot.width) >= _goodArea.x
-        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && (_dot.y + _dot.height) >= _goodArea.y
-
-        return xIsInsideGoodArea && yIsInsideGoodArea
+        return ViewExtension.areOverlapping(_dot,_goodArea)
     }
 
     private fun canCollectPoint() = _state == DotState.CanCollectPoint
