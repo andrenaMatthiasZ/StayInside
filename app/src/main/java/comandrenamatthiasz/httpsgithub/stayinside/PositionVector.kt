@@ -2,6 +2,7 @@ package comandrenamatthiasz.httpsgithub.stayinside
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.View
 
 class PositionVector {
 
@@ -28,6 +29,10 @@ class PositionVector {
     fun movesTo(other: PositionVector): MovementVector {
         other._vector.minus(_vector)
         return MovementVector()
+    }
+
+    fun setAsPosition(view: View) {
+        _vector.setAsPosition(view)
     }
 
 

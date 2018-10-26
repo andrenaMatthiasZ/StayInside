@@ -2,6 +2,7 @@ package comandrenamatthiasz.httpsgithub.stayinside
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.View
 import kotlin.math.sqrt
 
 
@@ -29,5 +30,10 @@ class Vector(private val x: Float =0f, private val y: Float =0f)  {
 
     fun scalarProduct(other: Vector): Float {
         return x*other.x+y*other.y
+    }
+
+    fun setAsPosition(view: View) {
+        view.x = x
+        view.y = y
     }
 }

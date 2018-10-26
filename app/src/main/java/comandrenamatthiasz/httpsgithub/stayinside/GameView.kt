@@ -166,36 +166,31 @@ class GameView : View {
 
         reflectFromBorderIfNecessary()
         reflectFromUserDrawnBorderIfNecessary()
-        _dot.x = _dot.x + xVelocity
-        _dot.y = _dot.y + yVelocity
+
+        val nextPosition = PositionVector(_dot.x+xVelocity,_dot.y+yVelocity)
+        nextPosition.setAsPosition(_dot)
     }
 
     private fun reflectFromUserDrawnBorderIfNecessary() {
     }
 
-    private fun reflectFromBorderIfNecessary()
-      {
+    private fun reflectFromBorderIfNecessary() {
 
         val effectiveWidth = width - _dot.width
         val effectiveHeight = height - _dot.height
+        val leftSideReached = _dot.x < x
+        val upperSideReached = _dot.y < y
+        val rightSideReached = _dot.x > x + effectiveWidth
+        val lowerSideReached = _dot.y > y + effectiveHeight
 
-        if (_dot.x < x) {
+        if (leftSideReached||rightSideReached) {
             xVelocity = -xVelocity
             onOuterAreaReached()
         }
-        if (_dot.y < y) {
+        if (upperSideReached||lowerSideReached) {
             yVelocity = -yVelocity
             onOuterAreaReached()
         }
-        if (_dot.x > x + effectiveWidth) {
-            xVelocity = -xVelocity
-            onOuterAreaReached()
-        }
-        if (_dot.y > y + effectiveHeight) {
-            yVelocity = -yVelocity
-            onOuterAreaReached()
-        }
-
     }
 
     private fun onOuterAreaReached() {
