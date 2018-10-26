@@ -31,7 +31,7 @@ class GameView : View {
     private var yVelocity = -20f
 
     private fun init() {
-        setBackgroundColor(Color.RED)
+        setBackgroundColor(Color.LTGRAY)
 
         setOnTouchListener { _, event ->
             handleTouch(event)
@@ -59,13 +59,13 @@ class GameView : View {
     private val barrierStyle = Paint.Style.STROKE
 
     private fun handleTouch(event: MotionEvent): Boolean {
-        val x = event.x
-        val y = event.y
+
+        val position = PositionVector(event.x, event.y)
         val actionType = event.actionMasked
         when (actionType) {
-            MotionEvent.ACTION_DOWN -> saveAsStart(PositionVector(x, y))
+            MotionEvent.ACTION_DOWN -> saveAsStart(position)
             MotionEvent.ACTION_UP -> {
-                saveAsStop(PositionVector(x, y))
+                saveAsStop(position)
                 createNewBarrierIfLineIsLongEnough()
             }
         }
