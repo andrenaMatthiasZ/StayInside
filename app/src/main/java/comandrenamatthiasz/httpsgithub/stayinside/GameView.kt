@@ -50,7 +50,7 @@ class GameView : View {
         paint.color = drawBarrierColor
         paint.strokeWidth = barrierThickness
         paint.style = barrierStyle
-        _start.drawLineTo(_stop, canvas, paint)
+        _barrier?.draw(canvas, paint)
     }
 
 
@@ -75,22 +75,22 @@ class GameView : View {
 
     private fun createNewBarrierIfLineIsLongEnough() {
 
-        val distance = _newStart.distance(_newStop)
+        val barrier = Line(_newStart, _newStop)
 
-        if (distance > 10f) {
-            useNewPointsForBarrier()
+        if (barrier.length() > 10f) {
+            useNewPointsForBarrier(barrier)
         }
     }
 
-    private var _start = PositionVector()
-    private var _stop = PositionVector()
-    private var _newStop: PositionVector = PositionVector()
-    private var _newStart: PositionVector = PositionVector()
 
-    private fun useNewPointsForBarrier() {
+    private var _newStop = PositionVector()
+    private var _newStart = PositionVector()
 
-        _start = _newStart
-        _stop = _newStop
+    private var _barrier: Line? = null
+
+    private fun useNewPointsForBarrier(barrier: Line) {
+
+        _barrier = barrier
     }
 
     private fun saveAsStop(positionVector: PositionVector) {
@@ -154,7 +154,7 @@ class GameView : View {
     }
 
     private fun dotIsInGoodArea(): Boolean {
-        return ViewExtension.areOverlapping(_dot,_goodArea)
+        return ViewExtension.areOverlapping(_dot, _goodArea)
     }
 
     private fun canCollectPoint() = _state == DotState.CanCollectPoint
