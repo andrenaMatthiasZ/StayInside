@@ -33,10 +33,6 @@ class GameView : View {
     private fun init() {
         setBackgroundColor(Color.RED)
 
-
-
-
-
         setOnTouchListener { _, event ->
             handleTouch(event)
 
@@ -58,10 +54,7 @@ class GameView : View {
     }
 
 
-    private fun handleTouch(event: MotionEvent?): Boolean {
-        if (event == null) {
-            return true
-        }
+    private fun handleTouch(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
         val actionType = event.actionMasked
@@ -161,8 +154,8 @@ class GameView : View {
     private var _state = DotState.CanCollectPoint
 
     private fun checkForGoodArea() {
-        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && _dot.x >= _goodArea.x
-        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && _dot.y >= _goodArea.y
+        val xIsInsideGoodArea = _dot.x <= (_goodArea.x + _goodArea.width) && (_dot.x+_dot.width) >= _goodArea.x
+        val yIsInsideGoodArea = _dot.y <= (_goodArea.y + _goodArea.height) && (_dot.y+_dot.height) >= _goodArea.y
 
         val dotIsInsideGoodArea = xIsInsideGoodArea && yIsInsideGoodArea
 
