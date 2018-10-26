@@ -1,4 +1,4 @@
-package layout
+package comandrenamatthiasz.httpsgithub.stayinside
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,18 +10,18 @@ class Points : TextView {
 
 
     constructor(context: Context) : super(context) {
-        init(context, null, 0)
+        init()
     }
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
-        init(context, attributeSet, 0)
+        init()
     }
 
     constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
-        init(context, attributeSet, defStyle)
+        init()
     }
 
-    private fun init(context: Context, attributeSet: AttributeSet?, defStyle: Int) {
+    private fun init() {
     }
 
     private var _value: Int = 0
