@@ -181,10 +181,8 @@ class GameView : View {
         val newPosition = velocity.move(oldDotPosition)
         val dotLine = Line(oldDotPosition, newPosition)
         if (dotLine.crosses(barrier)) {
-            LogHelper().log("Barrier","crossed.")
-            LogHelper().log("Velocity old",velocity.toString())
             velocity = barrier.reflect(velocity)
-            LogHelper().log("Velocity new",velocity.toString())
+            setDotState(DotState.CanCollectPoint)
         }
     }
 
