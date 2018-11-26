@@ -30,8 +30,7 @@ class GameView : View {
     private val initialXVelocity = -10f
     private val initialYVelocity = -20f
 
-    private var xVelocity = initialXVelocity
-    private var yVelocity = initialYVelocity
+    private var velocity = MovementVector(initialXVelocity,initialYVelocity)
 
     private fun init() {
         setBackgroundColor(Color.LTGRAY)
@@ -167,7 +166,7 @@ class GameView : View {
         reflectFromBorderIfNecessary()
         reflectFromUserDrawnBorderIfNecessary()
 
-        val nextPosition = MovementVector(xVelocity,yVelocity).move(PositionVector(_dot.x,_dot.y))
+        val nextPosition = velocity.move(PositionVector(_dot.x,_dot.y))
         nextPosition.setAsPosition(_dot)
     }
 
@@ -179,10 +178,13 @@ class GameView : View {
 
     private fun reflectDotFromUserDrawnBarrier(barrier: Line) {
         val oldDotPosition = PositionVector(_dot.x, _dot.y)
-        val newPosition = MovementVector(xVelocity, yVelocity).move(oldDotPosition)
+        val newPosition = velocity.move(oldDotPosition)
         val dotLine = Line(oldDotPosition, newPosition)
         if (dotLine.crosses(barrier)) {
             LogHelper().log("Barrier","crossed.")
+            LogHelper().log("Velocity old",velocity.toString())
+            velocity = barrier.reflect(velocity)
+            LogHelper().log("Velocity new",velocity.toString())
         }
     }
 
@@ -196,11 +198,11 @@ class GameView : View {
         val lowerSideReached = _dot.y > y + effectiveHeight
 
         if (leftSideReached||rightSideReached) {
-            xVelocity = -xVelocity
+            velocity = velocity.reflectOnXAxis()
             onOuterAreaReached()
         }
         if (upperSideReached||lowerSideReached) {
-            yVelocity = -yVelocity
+            velocity = velocity.reflectOnYAxis()
             onOuterAreaReached()
         }
     }

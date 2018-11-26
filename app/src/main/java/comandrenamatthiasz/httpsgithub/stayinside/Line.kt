@@ -2,7 +2,6 @@ package comandrenamatthiasz.httpsgithub.stayinside
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.util.Log
 
 class Line(first: PositionVector, second: PositionVector) {
 
@@ -48,5 +47,11 @@ class Line(first: PositionVector, second: PositionVector) {
         val directionOfLine = _second.movesTo(_first)
         val normal = directionOfLine.rotateByNinetyDegree()
         return normal
+    }
+
+    fun reflect(direction: MovementVector):MovementVector{
+        val parallel = direction.getParallelComponentOf(_second.movesTo(_first))
+        val orthogonal = direction.getOrthogonalComponentOf(_second.movesTo(_first))
+        return parallel.minus(orthogonal)
     }
 }

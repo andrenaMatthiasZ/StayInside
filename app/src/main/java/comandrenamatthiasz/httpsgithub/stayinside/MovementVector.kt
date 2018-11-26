@@ -24,4 +24,30 @@ class MovementVector {
     fun length():Float{
         return _vector.length()
     }
+
+    fun minus(other : MovementVector):MovementVector{
+        return MovementVector(_vector.minus(other._vector))
+    }
+
+    fun getParallelComponentOf(other: MovementVector): MovementVector {
+        val scalarProduct =_vector.scalarProduct(other._vector)
+        val scalarProductWithItself = other._vector.length()*other._vector.length()
+
+        val parallelComponent = other._vector.scaleWith(scalarProduct/scalarProductWithItself)
+
+        return MovementVector(parallelComponent)
+    }
+
+    fun getOrthogonalComponentOf(other: MovementVector): MovementVector {
+        val orthogonal = other._vector.rotateByNinetyDegree()
+        return getParallelComponentOf(MovementVector(orthogonal))
+    }
+
+    fun reflectOnXAxis(): MovementVector {
+        return MovementVector(_vector.reflectOnXAxis())
+    }
+
+    fun reflectOnYAxis(): MovementVector {
+        return MovementVector(_vector.reflectOnYAxis())
+    }
 }

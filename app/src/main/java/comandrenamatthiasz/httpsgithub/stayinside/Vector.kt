@@ -40,4 +40,17 @@ class Vector(private val x: Float =0f, private val y: Float =0f)  {
         view.x = x
         view.y = y
     }
+
+    fun scaleWith(scalingFactor: Float): Vector {
+          return Vector(x*scalingFactor,y*scalingFactor)
+    }
+
+    fun reflectOnXAxis(): Vector {
+        return Vector(-x,y)
+    }
+
+    fun reflectOnYAxis(): Vector {
+        return Vector(x,-y)
+    }
+
 }
