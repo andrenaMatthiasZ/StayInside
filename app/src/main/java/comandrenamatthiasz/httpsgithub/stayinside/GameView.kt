@@ -183,7 +183,13 @@ class GameView : View {
         if (dotLine.crosses(barrier)) {
             velocity = barrier.reflect(velocity)
             setDotState(DotState.CanCollectPoint)
+            deleteBarrier()
         }
+    }
+
+    private fun deleteBarrier() {
+        _barrier=null
+        postInvalidate()
     }
 
     private fun reflectFromBorderIfNecessary() {
